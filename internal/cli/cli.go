@@ -11,7 +11,7 @@ import (
 
 type options struct {
 	topic, client, path string
-	apply bool
+	apply               bool
 }
 
 func Run(args []string, stdout, stderr io.Writer, version string) int {
@@ -22,11 +22,15 @@ func Run(args []string, stdout, stderr io.Writer, version string) int {
 	var err error
 	switch args[0] {
 	case "help", "-h", "--help":
-		if len(args) != 1 { return invalidArguments(stderr) }
+		if len(args) != 1 {
+			return invalidArguments(stderr)
+		}
 		printHelp(stdout)
 		return 0
 	case "version", "-v", "--version":
-		if len(args) != 1 { return invalidArguments(stderr) }
+		if len(args) != 1 {
+			return invalidArguments(stderr)
+		}
 		fmt.Fprintf(stdout, "agentstrap %s\n", version)
 		return 0
 	case "skill", "agent", "mcp":
@@ -69,9 +73,12 @@ func parseOptions(args []string) (options, []string, error) {
 			}
 			i++
 			switch arg {
-			case "--topic": opts.topic = args[i]
-			case "--client": opts.client = strings.ToLower(args[i])
-			case "--path": opts.path = args[i]
+			case "--topic":
+				opts.topic = args[i]
+			case "--client":
+				opts.client = strings.ToLower(args[i])
+			case "--path":
+				opts.path = args[i]
 			}
 		case strings.HasPrefix(arg, "--topic="):
 			opts.topic = strings.TrimPrefix(arg, "--topic=")
@@ -89,10 +96,14 @@ func parseOptions(args []string) (options, []string, error) {
 }
 
 func resourceCommand(kind string, args []string, out io.Writer) error {
-	if len(args) == 0 { return fmt.Errorf("usage: agentstrap %s list|search|install", kind) }
+	if len(args) == 0 {
+		return fmt.Errorf("usage: agentstrap %s list|search|install", kind)
+	}
 	action := args[0]
 	opts, positional, err := parseOptions(args[1:])
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	switch action {
 	case "list":
 		if len(positional) != 0 || opts.client != "" || opts.apply {
@@ -109,7 +120,9 @@ func resourceCommand(kind string, args []string, out io.Writer) error {
 			return fmt.Errorf("usage: agentstrap %s install ID --client codex|claude|gemini [--path DIR] [--apply]", kind)
 		}
 		item, found := catalog.Find(kind, positional[0])
-		if !found { return fmt.Errorf("unknown %s %q; use '%s list'", kind, positional[0], kind) }
+		if !found {
+			return fmt.Errorf("unknown %s %q; use '%s list'", kind, positional[0], kind)
+		}
 		return installItem(item, opts, out)
 	default:
 		return fmt.Errorf("unknown %s action %q; use list, search or install", kind, action)
@@ -117,7 +130,10 @@ func resourceCommand(kind string, args []string, out io.Writer) error {
 }
 
 func printItems(out io.Writer, items []catalog.Item) error {
-	if len(items) == 0 { fmt.Fprintln(out, "No matches in the built-in catalog."); return nil }
+	if len(items) == 0 {
+		fmt.Fprintln(out, "No matches in the built-in catalog.")
+		return nil
+	}
 	for _, item := range items {
 		fmt.Fprintf(out, "%-6s %-20s [%s] %s\n", item.Kind, item.ID, strings.Join(item.Topics, ", "), item.Description)
 	}

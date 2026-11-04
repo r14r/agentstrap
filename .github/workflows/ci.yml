@@ -21,15 +21,6 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: just
-      - name: Temporary gofmt snapshot
-        run: |
-          gofmt -w cmd internal
-          for path in internal/catalog/*.go internal/cli/*.go; do
-            echo "FMTFILE:$path"
-            base64 -w0 "$path"
-            echo
-            echo "ENDFMTFILE:$path"
-          done
       # just install includes build -> ci -> precommit -> bootstrap/lint/test/validate.
       # Use a temporary install directory so CI does not need sudo.
       - name: Verify just recipes, build, and install

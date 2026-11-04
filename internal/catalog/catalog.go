@@ -5,7 +5,7 @@ import "strings"
 
 type Item struct {
 	Kind, ID, Description, Guide, Command string
-	Topics, Args []string
+	Topics, Args                          []string
 }
 
 var Entries = []Item{
