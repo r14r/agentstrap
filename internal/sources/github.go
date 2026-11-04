@@ -39,7 +39,7 @@ func GitHubRepo(raw string) (string, string, error) {
 }
 
 func SafePath(s string) bool {
-	if s == "" || strings.HasPrefix(s, "/") || strings.Contains(s, "\") || strings.ContainsRune(s, 0) { return false }
+	if s == "" || strings.HasPrefix(s, "/") || strings.Contains(s, "\\") || strings.ContainsRune(s, 0) { return false }
 	for _, part := range strings.Split(s, "/") {
 		if part == "." || part == ".." || part == "" { return false }
 	}
