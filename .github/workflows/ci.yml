@@ -27,6 +27,11 @@ jobs:
         run: |
           INSTALL_DIR="$RUNNER_TEMP/agentstrap-bin" just install
           "$RUNNER_TEMP/agentstrap-bin/agentstrap" --help
+          go list ./...
+          test ! -e internal
+          test ! -e scripts
+          test -x bin/next.sh
+          test -x bin/validate_template.py
       - name: Verify source registry recipes without network
         run: |
           export AGENTSTRAP_HOME="$RUNNER_TEMP/agentstrap-sources-smoke"

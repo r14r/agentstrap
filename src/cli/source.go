@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/r14r/agentstrap/internal/sources"
+	"github.com/r14r/agentstrap/src/sources"
 )
 
 func sourceCommand(args []string, out io.Writer) error {

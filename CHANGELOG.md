@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 — 2026-11-04
+
+- Move Go packages and tests from `internal/` to `src/`, update Go imports to `github.com/r14r/agentstrap/src/...`.
+- Move developer scripts from `scripts/` to `bin/` while preserving executable permissions.
+- Update Justfile, Python structure validator, architecture docs and CI references; reject legacy folders.
+
 ## 0.4.1 — 2026-11-04
 
 - Added `just` shortcuts for source list/show/add/remove/sync/search/install preview/install apply.

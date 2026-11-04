@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/r14r/agentstrap/internal/catalog"
+	"github.com/r14r/agentstrap/src/catalog"
 )
 
 type options struct {

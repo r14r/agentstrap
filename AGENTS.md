@@ -15,7 +15,7 @@
 ## Technische Regeln
 
 - Go-Modul: `github.com/r14r/agentstrap`.
-- CLI-Einstiegspunkt: `cmd/agentstrap`; Anwendungslogik und Tests unter `internal/`.
+- CLI-Einstiegspunkt: `cmd/agentstrap`; Anwendungslogik und Tests unter `src/`, Hilfsskripte unter `bin/`.
 - Standardbibliothek bevorzugen, Drittanbieter-Abhängigkeiten nur mit dokumentiertem Nutzen hinzufügen.
 - `VERSION` ist kanonisch; `just build` injiziert die Version über Go-`ldflags`.
 - Keine Secrets, Tokens, privaten Schlüssel, oder `.env`-Dateien committen.

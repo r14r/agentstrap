@@ -4,7 +4,7 @@
 
 AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-**Stand v0.4.1:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
+**Stand v0.4.2:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, zusätzliche Registry-Typen und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
 ## Voraussetzungen
 
@@ -72,16 +72,19 @@ Die Konfiguration verweist auf das GitHub-Repository `r14r/agentstrap` auf `main
 
 ## Struktur
 
+**Repository-Layout:** Go-Quellcode und Tests liegen unter `src/` (statt `internal/`), ausführbare Entwicklungshelfer unter `bin/` (statt `scripts/`). Der Go-Modulname bleibt `github.com/r14r/agentstrap`; Paketimporte verwenden jetzt `github.com/r14r/agentstrap/src/...`.
+
+
 ```text
 cmd/agentstrap/main.go       CLI-Einstiegspunkt und eingebettete Build-Version
-internal/cli/                Kommandoverarbeitung und Tests
+src/cli/                Kommandoverarbeitung und Tests
 go.mod                       Go-Modul
 VERSION                      SemVer-Version (Single Source of Truth)
 justfile                     Build-, Prüf-, Installations- und Update-Rezepte
 update-cli.yaml              Schema-v2-Workflows für Update CLI
 .github/workflows/ci.yml     Automatische Tests des just-Build- und Installationswegs
-scripts/next.sh              Lokale/PR-Prüfempfehlungen
-scripts/validate_template.py Validierung der übernommenen AI-Projektstruktur
+bin/next.sh              Lokale/PR-Prüfempfehlungen
+bin/validate_template.py Validierung der übernommenen AI-Projektstruktur
 AGENTS.md                    Anweisungen für Coding-Agents
 .agents/skills/              Wiederverwendbare Projekt-Skills
 doc/ai/                      Projektkontext, Architektur, Roadmap und Status
