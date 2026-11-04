@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-11-04
+
+- Local, persistent JSON source registry seeded with Anthropic Skills and alirezarezvani/claude-skills.
+- CLI `source list|show|add|remove|sync|search|install` manages indexed GitHub resources.
+- SHA-pinned installs for skills and agents with preview, blob verification and safe destination handling.
+- External MCP definitions indexed for manual review but never auto-imported.
+- Registry, URL, GitHub sync, manifest and CLI tests.
+
 ## 0.3.0 — 2026-11-04
 
 - Lokaler, themenbasierter Katalog: Skills, Agents, MCPs für Development, Video Editing und Animation.

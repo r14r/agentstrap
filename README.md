@@ -4,7 +4,7 @@
 
 AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-**Stand v0.3.0:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
+**Stand v0.4.0:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
 ## Voraussetzungen
 
@@ -127,6 +127,41 @@ Der Inspektionsbefehl prüft bestehende Dateien und leitet Hinweise aus Manifest
 Bei MCPs ergänzt `--apply` die Projektkonfiguration. Bereits vorhandene JSON-Felder bleiben erhalten. Vor einer Änderung bestehender Einstellungen werden versionierte `.agentstrap.bak`-Sicherheitskopien angelegt. MCP-Server werden **nicht während der Installation ausgeführt**, können aber beim späteren Laden durch den AI-Client starten. Prüfe daher Paketquelle und Berechtigungen. Der Filesystem-MCP erhält Zugriff auf den angegebenen Projektordner; Playwright startet potenziell Browserautomation. Die aktuelle Variante verwendet `npx`, weshalb eine Node-Installation nötig ist.
 
 **Nicht enthalten:** zentrale/verteilte Registry, Remote-Suche, Download beliebiger Skills, automatische Client-Installation, Dateigenerierung oder Codex-Subagent-Unterstützung.
+
+## External Source Registry (v0.4.0)
+
+AgentStrap keeps a persistent, schema-versioned JSON source database at `$AGENTSTRAP_HOME/sources.json` or the OS user-config directory (`agentstrap/sources.json`). The database is seeded with two sources: [Anthropic Skills](https://github.com/anthropics/skills) (`anthropic-skills`) and [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (`claude-skills`). Source records include repository URL, ref, supported resource types, installation method, last synced immutable commit, and indexed files.
+
+```bash
+# Manage registered GitHub repositories
+agentstrap source list
+agentstrap source show anthropic-skills
+agentstrap source add my-skills https://github.com/owner/repo --kind skill --root skills
+agentstrap source remove my-skills
+
+# Index GitHub resources (explicit network access)
+agentstrap source sync anthropic-skills
+agentstrap source sync claude-skills
+agentstrap source sync all
+
+# Offline search of indexed skills, agents and MCP configuration files
+agentstrap source search frontend --kind skill
+agentstrap source search architect --kind agent --source claude-skills
+agentstrap source search mcp --kind mcp
+
+# Preview targeted skill installation into the selected client
+agentstrap source install anthropic-skills:frontend-design --client claude --path .
+agentstrap skill install anthropic-skills:frontend-design --client codex --path .
+
+# Apply only with explicit approval
+agentstrap source install anthropic-skills:frontend-design --client claude --path . --apply
+```
+
+**Install strategies:** Skill packages are copied as directories including associated files; agents as individual Markdown files. The selected GitHub revision is pinned during sync and each download is verified against its Git blob SHA. Installation previews changes by default, rejects existing targets and symlink parents, and does not execute downloaded code.
+
+**Remote MCP configs:** Indexed and searchable, but marked `manual-review`. Importing and automatically activating arbitrary third-party `.mcp.json` configurations is deliberately disabled due to potential command execution, credentials and filesystem access. Built-in reviewed MCP definitions remain installable via `agentstrap mcp install`.
+
+Inspect individual licenses, referenced scripts and client compatibility before applying. GitHub API rate limits apply to the sync operation.
 
 ## Geplante Funktionalität
 

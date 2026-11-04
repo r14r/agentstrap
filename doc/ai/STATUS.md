@@ -3,8 +3,8 @@
 **Stand:** 2026-11-04
 
 - **Repository:** `r14r/agentstrap`
-- **Entwicklungsbranch:** `feat/catalog-install-inspect-v0.3.0`
-- **Version:** `0.3.0` (`VERSION`)
+- **Entwicklungsbranch:** `feat/source-registry-v0-4-0`
+- **Version:** `0.4.0` (`VERSION`)
 - **CI:** GitHub Actions und PR-Checks vor Merge überprüfen.
 
 ## Vorbereitet

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "anthropic-skills",
+      "name": "Anthropic Skills",
+      "url": "https://github.com/anthropics/skills",
+      "ref": "main",
+      "kinds": [
+        "skill"
+      ],
+      "install_methods": {
+        "skill": "copy-directory"
+      },
+      "roots": [
+        "skills"
+      ],
+      "notes": "Official Anthropic examples. Licenses vary by skill; check before installing.",
+      "items": []
+    },
+    {
+      "id": "claude-skills",
+      "name": "Claude Skills (alirezarezvani)",
+      "url": "https://github.com/alirezarezvani/claude-skills",
+      "ref": "main",
+      "kinds": [
+        "skill",
+        "agent",
+        "mcp"
+      ],
+      "install_methods": {
+        "skill": "copy-directory",
+        "agent": "copy-file",
+        "mcp": "manual-review"
+      },
+      "roots": [],
+      "notes": "Community-maintained collection; review individual contents and execution permissions.",
+      "items": []
+    }
+  ]
+}
