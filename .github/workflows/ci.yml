@@ -27,3 +27,14 @@ jobs:
         run: |
           INSTALL_DIR="$RUNNER_TEMP/agentstrap-bin" just install
           "$RUNNER_TEMP/agentstrap-bin/agentstrap" --help
+      - name: Verify source registry recipes without network
+        run: |
+          export AGENTSTRAP_HOME="$RUNNER_TEMP/agentstrap-sources-smoke"
+          just --list
+          just source-list
+          just source-show anthropic-skills
+          just source-add ci-test https://github.com/anthropics/skills skill skills
+          just source-show ci-test
+          just source-search frontend skill
+          just source-remove ci-test
+          just source-list

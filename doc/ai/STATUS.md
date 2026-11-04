@@ -3,8 +3,8 @@
 **Stand:** 2026-11-04
 
 - **Repository:** `r14r/agentstrap`
-- **Entwicklungsbranch:** `feat/source-registry-v0-4-0`
-- **Version:** `0.4.0` (`VERSION`)
+- **Entwicklungsbranch:** `feat/just-source-recipes-v0-4-1`
+- **Version:** `0.4.1` (`VERSION`)
 - **CI:** GitHub Actions und PR-Checks vor Merge überprüfen.
 
 ## Vorbereitet

@@ -88,5 +88,62 @@ run *args:
 next *args:
     bash scripts/next.sh {{args}}
 
+
+# Source Registry commands. Use the current Go checkout without rerunning CI.
+
+# List all registered sources without contacting GitHub.
+source-list:
+    @go run ./cmd/agentstrap source list
+
+# Show one source, its supported kinds, install strategy, and last revision.
+source-show id="anthropic-skills":
+    @go run ./cmd/agentstrap source show {{quote(id)}}
+
+# Register a source; optional root limits which directories are indexed.
+# Example: just source-add my-skills https://github.com/owner/repo skill skills
+source-add id url kind="skill" root="":
+    @if [[ -n {{quote(root)}} ]]; then \
+       go run ./cmd/agentstrap source add {{quote(id)}} {{quote(url)}} --kind {{quote(kind)}} --root {{quote(root)}}; \
+     else \
+       go run ./cmd/agentstrap source add {{quote(id)}} {{quote(url)}} --kind {{quote(kind)}}; \
+     fi
+
+# Remove a source from the local registry; installed skills remain intact.
+source-remove id:
+    @go run ./cmd/agentstrap source remove {{quote(id)}}
+
+# Sync a single source or all sources from GitHub.
+source-sync id="all":
+    @go run ./cmd/agentstrap source sync {{quote(id)}}
+
+# Sync all registered source repositories.
+source-sync-all:
+    @just source-sync all
+
+# Search the synchronized local index (offline).
+# Example: just source-search architect agent claude-skills
+source-search query kind="skill" source="":
+    @if [[ -n {{quote(source)}} ]]; then \
+       go run ./cmd/agentstrap source search {{quote(query)}} --kind {{quote(kind)}} --source {{quote(source)}}; \
+     else \
+       go run ./cmd/agentstrap source search {{quote(query)}} --kind {{quote(kind)}}; \
+     fi
+
+# Preview the source install, without changing project files.
+source-install identifier client="claude" path=".":
+    @go run ./cmd/agentstrap source install {{quote(identifier)}} --client {{quote(client)}} --path {{quote(path)}}
+
+# Explicitly install the SHA-pinned skill or agent into the target project.
+source-install-apply identifier client="claude" path=".":
+    @go run ./cmd/agentstrap source install {{quote(identifier)}} --client {{quote(client)}} --path {{quote(path)}} --apply
+
+# Anthropic frontend-design example: preview (requires source-sync first).
+source-frontend-preview client="claude" path=".":
+    @just source-install anthropic-skills:frontend-design {{quote(client)}} {{quote(path)}}
+
+# Anthropic frontend-design example: write to the target project.
+source-frontend-apply client="claude" path=".":
+    @just source-install-apply anthropic-skills:frontend-design {{quote(client)}} {{quote(path)}}
+
 clean:
     rm -rf dist
