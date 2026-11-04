@@ -1,0 +1,5 @@
+# Beispiel für Codex; nicht automatisch aktiv.
+# In .codex/config.toml (vertrauenswürdiges Projekt)
+# oder ~/.codex/config.toml übernehmen.
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"

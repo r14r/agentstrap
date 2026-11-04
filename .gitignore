@@ -1,0 +1,21 @@
+# Secrets / lokale Konfiguration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.secrets/
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+# Node
+node_modules/
+.nuxt/
+.output/
+# System
+.DS_Store
+.idea/
