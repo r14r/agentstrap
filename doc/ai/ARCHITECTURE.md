@@ -1,28 +1,35 @@
 # Architektur
 
-> Frameworkneutrales Beispiel; mit realer Architektur ersetzen.
+## Ist-Zustand (v0.2.0)
 
-## Systemkontext
-- Hauptfunktion: <PROJECT_FUNCTION>
-- Nutzer und externe Akteure: <ACTORS>
-- Externe Schnittstellen: <INTEGRATIONS>
+Go-CLI mit minimalem, unabhängig testbarem Einstiegspunkt.
 
-## Komponenten
 | Komponente | Verantwortung | Pfad |
 | --- | --- | --- |
-| <COMPONENT> | <RESPONSIBILITY> | <PATH> |
+| CLI-Binary | Argumente, Prozess-Exitcode, Build-Version | `cmd/agentstrap/main.go` |
+| CLI-Kern | Hilfe, Version, Eingabevalidierung | `internal/cli/` |
+| Buildsystem | Format, Vet, Tests, Race-Tests, Build, Installation | `justfile` |
+| Update-Orchestrierung | Schema-v2-Workflows auf `just` | `update-cli.yaml` |
+| CI | Automatische Prüfungen und Binary-Smoke-Test | `.github/workflows/ci.yml` |
+| Agent-Kontext | Instruktionen, Skills, MCP-Beispiele | `AGENTS.md`, `.agents/skills/`, `examples/mcp/` |
 
-## Datenflüsse
-<INPUT_PROCESS_OUTPUT_AND_TRUST_BOUNDARIES>
+`VERSION` ist die Single Source of Truth für Releases; `just build` setzt `main.version` mit `-ldflags`. Direkter `go run`-Aufruf verwendet die Entwicklungskennung `dev`.
 
-## Technologiewahl
-<STACK_AND_REASONING>
+## Zielarchitektur (noch nicht implementiert)
 
-## Deployment und Betrieb
-<RUNTIME_HOSTING_BACKUP_MONITORING_OR_NOT_APPLICABLE>
+- **Client-Adapter:** Codex, Claude Code, Antigravity, optional weitere.
+- **Skill-/Agent-Katalog:** deklarative Quellen und lokale Installationsziele.
+- **MCP-Registry:** client-spezifische Formate und sichere Secret-Referenzen.
+- **Konfigurationsmodell:** versioniertes `agentstrap.yaml` mit Validierung.
+- **Plan/Apply:** Vorschau, Diff, Backup, Konflikterkennung und bestätigte Änderungen.
+- **Generatoren:** standardisierte `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `SKILL.md`.
 
-## Sicherheitsmodell
-<AUTHENTICATION_AUTHORIZATION_SECRET_HANDLING_DATA_RETENTION>
+Keine pauschale Synchronisierung aller Client-Verzeichnisse: Jeder Adapter benötigt eine explizite Mapping- und Migrationsstrategie.
+
+## Sicherheitsgrenzen
+
+Eingelesene Konfigurationen und externe Registries sind untrusted input. Keine Secrets ins Git, Log oder Shell-Argumente; Schreiboperationen nur mit explizit ausgewähltem Ziel und späteren Dry-Run/Backup-Mechanismen.
 
 ## Entscheidungen
-Verbindliche Architekturentscheidungen unter `decisions/` dokumentieren.
+
+Neue Architekturentscheidungen unter `doc/ai/decisions/` dokumentieren.

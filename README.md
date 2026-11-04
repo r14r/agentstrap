@@ -1,58 +1,93 @@
-# AI Project Template
+# AgentStrap
 
-Versionierte Vorlage für die Zusammenarbeit zwischen **ChatGPT-Projekten**, **GitHub-Repositories** und Coding-Agents (z. B. Codex und VS Code).
+**One CLI. Every AI coding environment.**
 
-## Grundprinzip
+AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-Das Repository ist die **Single Source of Truth** für Anforderungen, Architektur, Projektregeln und verifizierten Arbeitsstand. Ein ChatGPT-Projekt ist die Arbeitsoberfläche; hochgeladene Projektdateien werden nicht automatisch mit GitHub synchronisiert.
+**Stand v0.2.0:** Das Repository enthält eine lauffähige, getestete CLI-Basis mit `help` und `version`. Client-/Skill-/Agent-/MCP-Verwaltung und Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
-| Ebene | Einstiegspunkt | Zweck |
-| --- | --- | --- |
-| Regeln | [AGENTS.md](AGENTS.md) | Verbindliche Agent-Anweisungen |
-| Kontext | [doc/ai/CONTEXT.md](doc/ai/CONTEXT.md) | Kontext-Routing und Quellen |
-| Projektwissen | [doc/ai/](doc/ai/) | Ziele, Architektur, Konventionen, Status, Roadmap |
-| Skills | [.agents/skills/](.agents/skills/) | Wiederverwendbare Workflows |
-| MCP | [doc/ai/TOOLS.md](doc/ai/TOOLS.md) und [examples/mcp/](examples/mcp/) | Optionale, clientabhängige Konfiguration |
-| Prüfung | [scripts/validate_template.py](scripts/validate_template.py) | Template-Struktur validieren |
+## Voraussetzungen
 
-## Neues Projekt aufsetzen
+- Go 1.23 oder neuer
+- [just](https://github.com/casey/just)
+- Python 3.11+ für die aus der Projektvorlage übernommene Strukturvalidierung
+- Optional: GitHub CLI `gh` für die PR-Übersicht in `just next` und `update-cli` für standardisierte Workflows
 
-1. Auf GitHub in den Repository-Einstellungen **Template repository** aktivieren (einmalig für dieses Repository).
-2. Mit **Use this template** ein neues Repository erstellen oder die Vorlage in ein bestehendes Projekt übernehmen.
-3. In `doc/ai/PROJECT.md` den Projektnamen, Zweck, Umfang und das kanonische Repository eintragen.
-4. `doc/ai/CONTEXT.md`, `ARCHITECTURE.md`, `CONVENTIONS.md`, `STATUS.md` und `ROADMAP.md` für das Projekt anpassen.
-5. `AGENTS.md` und Skills prüfen; nur relevante Skills behalten.
-6. Optional einen MCP-Client aus `examples/mcp/` konfigurieren und geheime Werte ausschließlich über sichere lokale Umgebungsvariablen bzw. den Secret Store bereitstellen.
-7. Den Inhalt von `doc/ai/CHATGPT_PROJECT.md` als Vorlage für die **Projektanweisungen in ChatGPT** verwenden. Für aktuelle Dateien GitHub gezielt lesen; ChatGPT lädt `AGENTS.md` nicht automatisch allein wegen seiner Existenz.
-8. Mit `just validate` oder `python3 scripts/validate_template.py` die Struktur prüfen.
+## Quick start
 
-## Arbeitsweise
+```sh
+git clone https://github.com/r14r/agentstrap.git
+cd agentstrap
 
-- **Beim Einstieg:** `AGENTS.md` und `doc/ai/CONTEXT.md` lesen.
-- **Pro Aufgabe:** nur fachlich relevante Dokumente und Quellcode laden.
-- **Vor Änderungen:** Branch, Commit und tatsächlichen Zustand prüfen; `STATUS.md` ist ein Snapshot.
-- **Bei Umsetzung:** passende Skills verwenden, danach Tests ausführen.
-- **Bei Abschluss:** relevante Dokumentation und ggf. Architekturentscheidungen aktualisieren; Änderung über Pull Request einreichen.
-
-## Verzeichnisstruktur
-
-```text
-AGENTS.md
-.agents/skills/{implement-feature,code-review,release,documentation}/SKILL.md
-.github/workflows/ci.yml
-doc/ai/{PROJECT,CONTEXT,ARCHITECTURE,CONVENTIONS,STATUS,ROADMAP,CHATGPT_PROJECT,TOOLS}.md
-doc/ai/decisions/0000-template.md
-examples/mcp/{codex.config.toml,vscode.mcp.json}
-scripts/validate_template.py
-justfile
-VERSION
-CHANGELOG.md
+just bootstrap
+just build
+./dist/agentstrap --help
+./dist/agentstrap version
 ```
 
-## Hinweise
+Für eine lokale Installation in `~/.local/bin`:
 
-- `AGENTS.md` ist die gängige Codex-Datei; `AGENT.md` ist **kein** Ersatz.
-- `.agents/skills/` ist ein Agent-Skills-Format. Die automatische Skill-Erkennung unterscheidet sich zwischen Clients.
-- MCP-Konfigurationen sind **client-spezifisch**, keine universelle Projektdatei.
-- Keine API-Schlüssel, Zugangstokens oder anderen Secrets committen.
-- Dieses Repository ist bewusst **frameworkneutral**: kein automatisch ausgewähltes Python-, FastAPI-, Nuxt- oder Docker-Gerüst.
+```sh
+just install
+# Optional ein anderes Installationsverzeichnis:
+INSTALL_DIR=/some/bin just install
+```
+
+## Entwicklungsbefehle
+
+| Befehl | Wirkung |
+| --- | --- |
+| `just` | Alle verfügbaren Rezepte anzeigen |
+| `just bootstrap` | Go-Module vorbereiten |
+| `just fmt` | Go-Code formatieren |
+| `just fmt-check` | Formatierung ohne Änderungen prüfen |
+| `just test` | Go-Unit-Tests |
+| `just validate` | Projektstruktur und Agent-Skills prüfen |
+| `just precommit` | Format, `go vet`, Tests und Projektvalidierung |
+| `just ci` | `precommit` plus Race-Tests |
+| `just build` | `ci`, Binary bauen, Version und Hilfe prüfen |
+| `just run --help` | CLI direkt über `go run` ausführen |
+| `just next` | Git-Stand, offene PRs und nächste Prüfschritte anzeigen |
+| `just next --run` | Zusätzlich `just build` und gegebenenfalls PR-Checks ausführen |
+| `just update` | `git pull --ff-only`, danach `just build` |
+| `just clean` | `dist/` entfernen |
+
+`just build` führt `just ci` bereits aus; ein separates `just precommit` oder `just test` davor ist nicht erforderlich.
+
+## Update CLI
+
+Die Datei [update-cli.yaml](update-cli.yaml) verwendet **schemaVersion 2**. Sie definiert die Workflows `bootstrap`, `setup`, `precommit`, `test`, `ci`, `build`, `install`, `run` und `clean`. Alle Workflows verweisen auf die kanonischen `just`-Rezepte; so laufen keine abweichenden Prüfketten.
+
+Die Konfiguration verweist auf das GitHub-Repository `r14r/agentstrap` auf `main`. Installation erfolgt ohne root-Rechte standardmäßig nach `~/.local/bin`.
+
+## Struktur
+
+```text
+cmd/agentstrap/main.go       CLI-Einstiegspunkt und eingebettete Build-Version
+internal/cli/                Kommandoverarbeitung und Tests
+go.mod                       Go-Modul
+VERSION                      SemVer-Version (Single Source of Truth)
+justfile                     Build-, Prüf-, Installations- und Update-Rezepte
+update-cli.yaml              Schema-v2-Workflows für Update CLI
+.github/workflows/ci.yml     Automatische Prüfungen und Build-Smoke-Test
+scripts/next.sh              Lokale/PR-Prüfempfehlungen
+scripts/validate_template.py Validierung der übernommenen AI-Projektstruktur
+AGENTS.md                    Anweisungen für Coding-Agents
+.agents/skills/              Wiederverwendbare Projekt-Skills
+doc/ai/                      Projektkontext, Architektur, Roadmap und Status
+examples/mcp/                MCP-Konfigurationsbeispiele
+```
+
+## Geplante Funktionalität
+
+- Client-Erkennung und Setup für Codex, Claude Code und Antigravity
+- Installation und Synchronisierung von Skills und Agents
+- Sichere Registrierung und Verwaltung von MCP-Servern
+- Generierung und Synchronisierung von `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` und `SKILL.md`
+- Deklarative Konfiguration (`agentstrap.yaml`), Dry-Run, Backups und Konflikterkennung
+
+Details: [Projektbeschreibung](doc/ai/PROJECT.md) und [Roadmap](doc/ai/ROADMAP.md). Client-spezifische Dateien werden nicht automatisch angelegt oder verändert.
+
+## Sicherheit
+
+Keine API-Schlüssel oder Tokens ins Repository committen. Spätere Änderungen an Client-Konfigurationen müssen explizit erfolgen und Backups/Preview berücksichtigen. Die vorhandenen Skills und MCP-Beispiele sind Dokumentationsressourcen, **keine** automatisch installierten Komponenten.

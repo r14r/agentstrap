@@ -1,33 +1,38 @@
 # Projektsteckbrief
 
-> Diese Angaben nach dem Erstellen eines neuen Repositories ersetzen.
-
 ## Identität
-- **Name:** <PROJECT_NAME>
-- **Kanonisches Repository:** <OWNER/REPOSITORY>
-- **Kurzbeschreibung:** <ONE_SENTENCE_PURPOSE>
-- **Verantwortung:** <OWNER_OR_TEAM>
+
+- **Name:** AgentStrap
+- **Kanonisches Repository:** `r14r/agentstrap`
+- **CLI-Befehl:** `agentstrap`
+- **Leitmotiv:** One CLI. Every AI coding environment.
+- **Technologie:** Go (Standardbibliothek als Ausgangspunkt)
 
 ## Ziel und Nutzen
-<WHO_BENEFITS_AND_WHY>
+
+Eine konsistente, reproduzierbare Einrichtung von AI-Coding-Umgebungen über mehrere Clients hinweg. Skills, Agents, MCP-Server und projektbezogene Agent-Anweisungen sollen langfristig aus einer zentralen Konfiguration verwaltet werden.
 
 ## Zielgruppen
-<PRIMARY_USERS>
 
-## Scope (in)
-- <GOAL_1>
-- <GOAL_2>
+Softwareentwickler, Architekten und Teams, die Codex, Claude Code, Antigravity oder weitere AI-Clients parallel einsetzen.
 
-## Nicht-Ziele (out)
-- <NON_GOAL_1>
+## Scope
+
+- Erkennung und Vorbereitung unterstützter AI-Clients.
+- Verwaltung von Skills, Agents und MCP-Servern.
+- Generierung und Synchronisierung von Agent-Dateien (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `SKILL.md`).
+- Konfigurationsvalidierung, Vorschau und sichere Änderungen.
+- Lokale, reproduzierbare Go-CLI mit Build- und Testworkflow.
+
+## Nicht-Ziele der Bootstrap-Phase
+
+- Noch keine tatsächliche Installation von AI-Clients.
+- Noch keine Konfigurationsänderungen am Benutzerverzeichnis.
+- Keine Cloud-Anbindung oder zentrale Secret-Speicherung.
 
 ## Qualitätsziele
-- Sicherheit und Datenminimierung
-- Wartbarkeit und nachvollziehbare Tests
-- Reproduzierbare Builds, sofern einschlägig
 
-## Schnittstellen und Abhängigkeiten
-<EXTERNAL_SYSTEMS_OR_NONE>
-
-## Fachbegriffe
-<DOMAIN_GLOSSARY_OR_LINK>
+- macOS, Linux und perspektivisch Windows.
+- Sichere, explizite Änderungen statt stiller Überschreibungen.
+- Minimaler Abhängigkeitsumfang, überprüfbare Tests.
+- Stabiler Go-Build, kanonische Versionierung und reproduzierbare CLI-Aufrufe.

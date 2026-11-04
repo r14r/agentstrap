@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the framework-neutral AI project template (stdlib only)."""
+"""Validate AgentStrap's AI context scaffold (Python standard library only)."""
 
 from __future__ import annotations
 
@@ -15,7 +15,13 @@ REQUIRED = (
     "AGENTS.md",
     "VERSION",
     "CHANGELOG.md",
+    "go.mod",
+    "cmd/agentstrap/main.go",
+    "internal/cli/cli.go",
+    "internal/cli/cli_test.go",
+    "update-cli.yaml",
     "justfile",
+    "scripts/next.sh",
     "doc/ai/PROJECT.md",
     "doc/ai/CONTEXT.md",
     "doc/ai/ARCHITECTURE.md",
@@ -75,8 +81,8 @@ if mcp_toml.exists():
         check(isinstance(tomllib.load(stream).get("mcp_servers"), dict), "Missing Codex MCP server mapping")
 
 if ERRORS:
-    print("Template validation FAILED")
+    print("AgentStrap structure validation FAILED")
     for error in ERRORS:
         print(f"  - {error}")
     sys.exit(1)
-print(f"Template validation OK: {len(REQUIRED)} required files checked")
+print(f"AgentStrap structure validation OK: {len(REQUIRED)} required files checked")
