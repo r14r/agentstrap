@@ -89,8 +89,7 @@ func Save(path string, db Database) error {
 	if err := os.MkdirAll(filepath.Dir(path), 0700); err != nil { return err }
 	data, err := json.MarshalIndent(db, "", "  ")
 	if err != nil { return err }
-	data = append(data, '
-')
+	data = append(data, '\n')
 	tmp, err := os.CreateTemp(filepath.Dir(path), ".sources-*")
 	if err != nil { return err }
 	defer os.Remove(tmp.Name())
