@@ -30,3 +30,6 @@ node_modules/
 # OS / IDE
 .DS_Store
 .idea/
+
+# Existing MCP configuration backups may contain secrets
+*.agentstrap.bak

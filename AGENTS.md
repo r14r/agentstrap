@@ -6,6 +6,9 @@
 - `README.md` beschreibt den aktuellen Funktionsumfang. `doc/ai/CONTEXT.md` dient als Kontextindex.
 - Maßgeblich sind aktueller Quellcode, Tests, `VERSION`, `doc/ai/PROJECT.md` und `doc/ai/ARCHITECTURE.md`.
 - Geplante Befehle aus der Roadmap nicht als bereits implementiert bezeichnen.
+- v0.3.0 führt Katalogsuche, projektbezogene Installation und read-only Repository-Inspektion ein; die Inspektion schreibt keine Dateien.
+- Installationsbefehle sind standardmäßig Vorschauen; Schreibzugriff nur über `--apply`.
+- Keine bestehenden Skill- oder Agentdateien überschreiben; bestehende MCP-Konfigurationen nur mit Backup ändern.
 
 ## Technische Regeln
 
