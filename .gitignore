@@ -32,4 +32,4 @@ node_modules/
 .idea/
 
 # Existing MCP configuration backups may contain secrets
-*.agentstrap.bak
+*.agentstrap.bak*
