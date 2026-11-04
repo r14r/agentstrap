@@ -109,8 +109,7 @@ func TestCodexMCPAndRejectMalformedJSON(t *testing.T) {
 
 func TestInspectRepository(t *testing.T) {
 	root := t.TempDir()
-	if err := os.WriteFile(filepath.Join(root, "go.mod"), []byte("module test
-"), 0644); err != nil { t.Fatal(err) }
+	if err := os.WriteFile(filepath.Join(root, "go.mod"), []byte("module test\n"), 0644); err != nil { t.Fatal(err) }
 	if err := os.MkdirAll(filepath.Join(root, "services", "api"), 0755); err != nil { t.Fatal(err) }
 	code, output, errout := execute("inspect", "--path", root)
 	if code != 0 { t.Fatal(errout) }
