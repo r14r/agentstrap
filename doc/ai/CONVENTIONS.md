@@ -1,28 +1,29 @@
 # Entwicklungs- und Dokumentationskonventionen
 
-## Grundsätze
-- Konsistente, nachvollziehbare Änderungen statt großer ungetesteter Umbauten.
-- Bestehende Projektstruktur und bewährte Werkzeuge bevorzugen.
-- Schnittstellenänderungen mit Migration/Kompatibilitätshinweisen dokumentieren.
-- Fehlerfälle und Sicherheitsgrenzen explizit prüfen.
+## Go
 
-## Benennung und Sprache
-- Dokumentation und fachliche Ausgaben: Deutsch, wenn nichts anderes festgelegt wird.
-- Code-Symbole, Skript-Namen, Commit-Nachrichten: Englisch.
-- Ordner und Dateinamen möglichst aussagekräftig, kleingeschrieben und stabil.
+- Go 1.23+; Modul `github.com/r14r/agentstrap`.
+- Einstieg in `cmd/agentstrap`, Paketlogik und Tests in `internal/`.
+- `gofmt` ist verpflichtend, `go vet ./...` und `go test` sind Teil von CI.
+- Öffentliche CLI-Befehle brauchen Tests für Erfolg und Fehlerfälle.
+- Standardbibliothek bevorzugen; externe Abhängigkeiten begründen und fixieren.
 
-## Testing
-- Jede Verhaltensänderung durch passende Tests absichern.
-- In Reviews benennen, was geprüft wurde und was nicht.
-- Lokale Validierung: `just validate`; CI muss denselben Validator ausführen.
+## Build und Versionierung
 
-## Git
-- Feature-Branches und Pull Requests für nachvollziehbare Änderungen.
-- Commit-Scopes bei Bedarf nutzen, z. B. `docs:`, `feat:`, `fix:`, `chore:`.
-- SemVer über `VERSION` und `CHANGELOG.md` pflegen.
+- `VERSION` ist die kanonische SemVer-Datei.
+- `just ci` enthält alle Precommit-Schritte und Race-Tests.
+- `just build` enthält `just ci` und einen Binary-Smoke-Test.
+- `update-cli.yaml` ruft dieselben `just`-Rezepte auf, um doppelte Prüfketten zu vermeiden.
+- `CHANGELOG.md` zu jeder Versionsänderung aktualisieren.
 
-## KI-spezifisch
-- Keine Secrets im Prompt, Log oder Git.
-- Befehle mit Seiteneffekten nur bei berechtigtem Auftrag ausführen.
-- Bei unklarem Arbeitsstand erst Branch/HEAD/Dateien verifizieren.
-- Änderungen an Kontext und Skills wie Produktionscode reviewen.
+## Sicherheit
+
+- Keine Secrets in Git, CI-Ausgaben, Logs oder generierten Dateien.
+- Agent-Skills und MCP-Definitionen können externe Befehle ausführen und müssen vor der Aktivierung geprüft werden.
+- Lokale Client-Dateien später nur nach ausdrücklichem Apply ändern; Dry-Run und Backups priorisieren.
+
+## Zusammenarbeit
+
+- Dokumentation und fachliche Texte auf Deutsch; Quellcode und Commit-Nachrichten auf Englisch.
+- Feature-Branch und PR statt Direktänderung an `main`.
+- Vor Abschluss Tests und PR-Checks prüfen; ohne Freigabe keinen Merge.

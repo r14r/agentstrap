@@ -1,4 +1,4 @@
-# Secrets / lokale Konfiguration
+# Secrets and local configuration
 .env
 .env.*
 !.env.example
@@ -7,15 +7,26 @@
 *.p12
 *.pfx
 .secrets/
-# Python
+
+# Go build artifacts
+/dist/
+/bin/
+*.test
+*.out
+coverage/
+vendor/
+
+# Python validator caches
 __pycache__/
 *.py[cod]
 .venv/
 .pytest_cache/
-# Node
+
+# Node tools
 node_modules/
 .nuxt/
 .output/
-# System
+
+# OS / IDE
 .DS_Store
 .idea/

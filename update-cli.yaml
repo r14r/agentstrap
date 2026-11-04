@@ -1,0 +1,101 @@
+schemaVersion: 2
+
+project:
+  slug: agentstrap
+  name: AgentStrap
+  description: Go CLI for configuring AI coding environments
+  type: generic
+
+update:
+  mode: pull
+  source:
+    type: repository
+    repository: https://github.com/r14r/agentstrap.git
+    ref: main
+  healthcheck:
+    type: none
+
+defaults:
+  timeout: 15m
+  failFast: true
+
+requirements:
+  commands: [go, just, python3]
+  optionalCommands: [gh]
+
+run:
+  description: Show AgentStrap help
+  cwd: .
+  command: ./dist/agentstrap --help
+
+workflows:
+  bootstrap:
+    tasks: [bootstrap]
+  setup:
+    tasks: [bootstrap]
+  precommit:
+    tasks: [precommit]
+  test:
+    tasks: [test]
+  ci:
+    tasks: [ci]
+  build:
+    tasks: [build]
+  install:
+    tasks: [install]
+  run:
+    tasks: [build, run]
+  clean:
+    tasks: [clean]
+
+tasks:
+  bootstrap:
+    description: Prepare Go modules
+    steps:
+      - id: bootstrap
+        shell: just bootstrap
+
+  precommit:
+    description: Run pre-commit checks
+    steps:
+      - id: precommit
+        shell: just precommit
+
+  test:
+    description: Run Go tests
+    steps:
+      - id: test
+        shell: just test
+
+  ci:
+    description: Format check, vet, tests, template verification and race tests
+    steps:
+      - id: ci
+        shell: just ci
+
+  build:
+    description: Build and verify AgentStrap (includes CI, once)
+    steps:
+      - id: build
+        shell: just build
+      - id: binary-exists
+        assert:
+          executable: dist/agentstrap
+
+  install:
+    description: Install AgentStrap to INSTALL_DIR or ~/.local/bin
+    steps:
+      - id: install
+        shell: just install
+
+  run:
+    description: Show the generated CLI
+    steps:
+      - id: show-help
+        shell: ./dist/agentstrap --help
+
+  clean:
+    description: Remove generated artifacts
+    steps:
+      - id: clean
+        shell: just clean

@@ -1,43 +1,45 @@
-# Agent Instructions
+# Agent Instructions — AgentStrap
 
 ## Zweck und Quellen
-- Dieses Repository ist die Vorlage für neue KI-unterstützte Projekte.
-- `README.md` beschreibt die Benutzung; `doc/ai/CONTEXT.md` ist der Kontext-Wegweiser.
-- Lies nur die für die Aufgabe relevanten Dokumente und Quelldateien.
-- Das Repository und die Tests sind maßgeblich; Chatverläufe sind keine verifizierte Ist-Dokumentation.
 
-## Änderungen
-- Prüfe vor jeder Änderung den aktuellen Branch, HEAD-Commit und die betroffenen Dateien.
-- Formuliere bei größeren Aufgaben einen Plan; halte Änderungen klein und prüfbar.
-- Erhalte vorhandene Funktionen und Schnittstellen, sofern nichts anderes beauftragt ist.
-- Neue Abhängigkeiten, Frameworks oder MCP-Server nur mit nachvollziehbarem Bedarf.
-- Keine Secrets, persönlichen Zugangsdaten, privaten Schlüssel oder `.env`-Dateien committen.
+- Dieses Repository entwickelt **AgentStrap**, eine plattformübergreifende Go-CLI für die Einrichtung von AI-Coding-Umgebungen.
+- `README.md` beschreibt den aktuellen Funktionsumfang. `doc/ai/CONTEXT.md` dient als Kontextindex.
+- Maßgeblich sind aktueller Quellcode, Tests, `VERSION`, `doc/ai/PROJECT.md` und `doc/ai/ARCHITECTURE.md`.
+- Geplante Befehle aus der Roadmap nicht als bereits implementiert bezeichnen.
 
-## Konventionen
-- Versionsstand in `VERSION` nach SemVer pflegen; Änderungshistorie in `CHANGELOG.md`.
-- Dokumentationsänderungen und Codeänderungen synchron halten.
-- Architekturentscheidungen unter `doc/ai/decisions/` mit Status und Begründung festhalten.
-- Deutsch für die fachliche Dokumentation; Englisch für Quellcode und technische Bezeichner.
-- Keine erfundenen Testergebnisse, Commits, Fähigkeiten oder externen Daten.
+## Technische Regeln
 
-## Validierung und Lieferung
-- Nach Änderungen `just validate` oder `python3 scripts/validate_template.py` ausführen.
-- Für Änderungen am Repository nach Möglichkeit Branch → Commit → Pull Request verwenden.
-- Kein Merge, Release oder externes Deployment ohne ausdrückliche Freigabe.
-- Im Ergebnis Änderungen, ausgeführte Prüfungen, nicht ausgeführte Prüfungen und offene Punkte nennen.
+- Go-Modul: `github.com/r14r/agentstrap`.
+- CLI-Einstiegspunkt: `cmd/agentstrap`; Anwendungslogik und Tests unter `internal/`.
+- Standardbibliothek bevorzugen, Drittanbieter-Abhängigkeiten nur mit dokumentiertem Nutzen hinzufügen.
+- `VERSION` ist kanonisch; `just build` injiziert die Version über Go-`ldflags`.
+- Keine Secrets, Tokens, privaten Schlüssel, oder `.env`-Dateien committen.
+- Spätere Konfigurationsänderungen an AI-Clients: Standardmäßig Vorschau, Rückfrage und Backup, keine stillen Überschreibungen.
 
-## Kontext-Routing
-- Ziel und Scope: `doc/ai/PROJECT.md`
-- Kontextindex: `doc/ai/CONTEXT.md`
-- Architektur und Konventionen: `doc/ai/ARCHITECTURE.md`, `doc/ai/CONVENTIONS.md`
-- Verifizierter Arbeitsstand: `doc/ai/STATUS.md`
-- Prioritäten: `doc/ai/ROADMAP.md`
-- Tools/MCP: `doc/ai/TOOLS.md`
-- ChatGPT-Projektanweisungen: `doc/ai/CHATGPT_PROJECT.md`
+## Änderung und Validierung
 
-## Skills
-Bedarfsweise verwenden, sofern vom Agent-Client unterstützt:
-- `implement-feature`: Feature planen, implementieren und prüfen.
-- `code-review`: Risiko- und Code-Review.
-- `release`: SemVer und Release-Vorbereitung.
-- `documentation`: Dokumentation und Kontext aktualisieren.
+- Vor Änderungen Branch, HEAD und betroffene Dateien prüfen.
+- Bei Features/Bugfixes passende Go-Tests ergänzen.
+- `just ci` umfasst Format-Check, Vet, Tests, Projektvalidierung und Race-Tests.
+- `just build` umfasst bereits `just ci`; Checks nicht unnötig mehrfach ausführen.
+- `just next` zeigt nächste Schritte; `just next --run` führt lokale Checks aus.
+- Für Repository-Änderungen Feature-Branch und Pull Request verwenden.
+- **Kein Merge, Release oder Deployment ohne explizite Freigabe.**
+- `VERSION`, `CHANGELOG.md` und betroffene Dokumentation synchron halten.
+- Tests nicht als erfolgreich melden, bevor sie tatsächlich ausgeführt wurden.
+
+## Dokumentation
+
+- [PROJECT](doc/ai/PROJECT.md): Ziel, Zielgruppe und Umfang
+- [ARCHITECTURE](doc/ai/ARCHITECTURE.md): Go- und Adapter-Architektur
+- [CONVENTIONS](doc/ai/CONVENTIONS.md): Entwicklungsregeln
+- [ROADMAP](doc/ai/ROADMAP.md): geplante Features
+- [STATUS](doc/ai/STATUS.md): Momentaufnahme, keine Live-Daten
+- [TOOLS](doc/ai/TOOLS.md): MCP- und Client-Sicherheit
+
+## Übernommene Agent Skills
+
+- `.agents/skills/implement-feature/SKILL.md`
+- `.agents/skills/code-review/SKILL.md`
+- `.agents/skills/release/SKILL.md`
+- `.agents/skills/documentation/SKILL.md`

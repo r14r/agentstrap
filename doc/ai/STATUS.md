@@ -1,24 +1,30 @@
 # Projektstatus
 
-> Beispiel-Snapshot. Bei Verwendung als Projektvorlage vollständig aktualisieren.
+**Stand:** 2026-11-04
 
-- **Letzte Überprüfung:** <YYYY-MM-DD>
-- **Branch:** <BRANCH>
-- **Verifizierter Commit:** <FULL_SHA>
-- **Version:** siehe `VERSION`
-- **CI:** <LAST_VERIFIED_RESULT>
+- **Repository:** `r14r/agentstrap`
+- **Entwicklungsbranch:** `feat/go-cli-bootstrap-v0.2.0`
+- **Version:** `0.2.0` (`VERSION`)
+- **CI:** GitHub Actions in diesem Branch zu prüfen; Status vor Merge erneut ermitteln.
 
-## Fertiggestellt
-- <VERIFIED_ITEM>
+## Vorbereitet
 
-## In Arbeit
-- <CURRENT_TASK_OR_NONE>
+- Go-CLI-Grundstruktur mit Hilfe-/Versionsfunktion
+- Go-Tests und CI-Workflow
+- `justfile` inkl. `next` und `next --run`
+- `update-cli.yaml` mit Schema v2
+- Bestehende Agent-Skills/MCP-Beispiele beibehalten
 
-## Blocker und Risiken
-- <OPEN_ISSUE_OR_NONE>
+## Noch nicht implementiert
+
+- Installation oder Erkennung von AI-Clients
+- Skill-/Agent-/MCP-Management
+- Generierung von Agent-Konfigurationsdateien
 
 ## Nächste Schritte
-1. <NEXT_PRIORITY>
 
-## Hinweise
-Der Status ist kein Live-Zugriff auf GitHub. Vor Änderungen Commit, Code und CI erneut prüfen.
+1. PR-Checks und lokalen `just build` prüfen.
+2. Feature-PR reviewen und erst mit Freigabe mergen.
+3. Client-Erkennung und deklaratives Konfigurationsformat implementieren.
+
+Der Status ist eine Momentaufnahme, keine Live-GitHub-Abfrage.
