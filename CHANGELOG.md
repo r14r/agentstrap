@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 — 2026-11-04
+
+- Added `just` shortcuts for source list/show/add/remove/sync/search/install preview/install apply.
+- Included no-argument Anthropic frontend-design examples.
+- Added offline CI smoke tests for the just-based source lifecycle.
+
 ## 0.4.0 — 2026-11-04
 
 - Local, persistent JSON source registry seeded with Anthropic Skills and alirezarezvani/claude-skills.

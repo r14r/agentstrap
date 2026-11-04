@@ -4,7 +4,7 @@
 
 AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-**Stand v0.4.0:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
+**Stand v0.4.1:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
 ## Voraussetzungen
 
@@ -162,6 +162,32 @@ agentstrap source install anthropic-skills:frontend-design --client claude --pat
 **Remote MCP configs:** Indexed and searchable, but marked `manual-review`. Importing and automatically activating arbitrary third-party `.mcp.json` configurations is deliberately disabled due to potential command execution, credentials and filesystem access. Built-in reviewed MCP definitions remain installable via `agentstrap mcp install`.
 
 Inspect individual licenses, referenced scripts and client compatibility before applying. GitHub API rate limits apply to the sync operation.
+
+## Just commands for external source registries
+
+These shortcuts execute the current Go CLI directly; they do **not** rebuild or rerun CI on every search.
+
+```bash
+just source-list
+just source-show anthropic-skills
+just source-add my-skills https://github.com/owner/repo skill skills
+just source-remove my-skills
+
+just source-sync-all
+just source-sync anthropic-skills
+just source-search frontend skill
+just source-search architect agent claude-skills
+
+# Preview first, then explicitly apply
+just source-install anthropic-skills:frontend-design claude .
+just source-install-apply anthropic-skills:frontend-design claude .
+
+# No-argument Anthropic frontend-design shortcuts
+just source-frontend-preview
+just source-frontend-apply
+```
+
+Run `source-sync` before trying remote installation; the source index is stored locally. `source-install` performs a preview, and only `source-install-apply` writes project files. `source-add`/`source-remove` change the local registry, while `source-sync` makes GitHub network requests. Arguments are escaped using `quote()` from just.
 
 ## Geplante Funktionalität
 
