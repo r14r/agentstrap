@@ -125,6 +125,12 @@ func TestMCPInstallPreservesConfigAndBackup(t *testing.T) {
 	if string(backup) != string(original) {
 		t.Fatal("backup does not match original")
 	}
+	if code, _, err := execute("mcp", "install", "playwright", "--client", "gemini", "--path", root, "--apply"); code != 0 {
+		t.Fatalf("second MCP install failed: %s", err)
+	}
+	if _, err := os.Stat(settings + ".agentstrap.bak.1"); err != nil {
+		t.Fatalf("second backup missing: %v", err)
+	}
 	if code, _, _ := execute(append(args, "--apply")...); code == 0 {
 		t.Fatal("duplicate MCP unexpectedly succeeded")
 	}
