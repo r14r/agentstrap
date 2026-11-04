@@ -124,7 +124,7 @@ agentstrap repo inspect --client codex --path ./my-project
 
 Der Inspektionsbefehl prüft bestehende Dateien und leitet Hinweise aus Manifestdateien und ersten Monorepo-Unterordnern ab. Er erstellt **keine** Dateien. Skills und Agents werden beim Installieren als lokale Startervorlagen erzeugt; es werden keine Drittquellen installiert. Bestehende Skill- und Agentdateien werden nicht überschrieben.
 
-Bei MCPs ergänzt `--apply` die Projektkonfiguration. Bereits vorhandene JSON-Felder bleiben erhalten. Vor einer Änderung bestehender Einstellungen wird eine `.agentstrap.bak`-Sicherheitskopie erstellt. MCP-Server werden **nicht während der Installation ausgeführt**, können aber beim späteren Laden durch den AI-Client starten. Prüfe daher Paketquelle und Berechtigungen. Der Filesystem-MCP erhält Zugriff auf den angegebenen Projektordner; Playwright startet potenziell Browserautomation. Die aktuelle Variante verwendet `npx`, weshalb eine Node-Installation nötig ist.
+Bei MCPs ergänzt `--apply` die Projektkonfiguration. Bereits vorhandene JSON-Felder bleiben erhalten. Vor einer Änderung bestehender Einstellungen werden versionierte `.agentstrap.bak`-Sicherheitskopien angelegt. MCP-Server werden **nicht während der Installation ausgeführt**, können aber beim späteren Laden durch den AI-Client starten. Prüfe daher Paketquelle und Berechtigungen. Der Filesystem-MCP erhält Zugriff auf den angegebenen Projektordner; Playwright startet potenziell Browserautomation. Die aktuelle Variante verwendet `npx`, weshalb eine Node-Installation nötig ist.
 
 **Nicht enthalten:** zentrale/verteilte Registry, Remote-Suche, Download beliebiger Skills, automatische Client-Installation, Dateigenerierung oder Codex-Subagent-Unterstützung.
 
