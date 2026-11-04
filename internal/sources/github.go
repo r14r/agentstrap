@@ -195,7 +195,7 @@ func (c *GitHubClient) Download(ctx context.Context, s Source, item Entry) (map[
 		data, err := c.readURL(ctx, rawURL, f.Size)
 		if err != nil { return nil, err }
 		if int64(len(data)) != f.Size { return nil, fmt.Errorf("file size changed for %s", fullPath) }
-		header := fmt.Sprintf("blob %d ", len(data))
+		header := fmt.Sprintf("blob %d\x00", len(data))
 		hash := sha1.Sum(append([]byte(header), data...))
 		if !strings.EqualFold(hex.EncodeToString(hash[:]), f.SHA) {
 			return nil, fmt.Errorf("content hash mismatch for %s", fullPath)
