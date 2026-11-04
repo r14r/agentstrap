@@ -167,7 +167,7 @@ Inspect individual licenses, referenced scripts and client compatibility before 
 
 These shortcuts execute the current Go CLI directly; they do **not** rebuild or rerun CI on every search.
 
-``bash
+```bash
 just source-list
 just source-show anthropic-skills
 just source-add my-skills https://github.com/owner/repo skill skills
@@ -185,7 +185,7 @@ just source-install-apply anthropic-skills:frontend-design claude .
 # No-argument Anthropic frontend-design shortcuts
 just source-frontend-preview
 just source-frontend-apply
-``
+```
 
 Run `source-sync` before trying remote installation; the source index is stored locally. `source-install` performs a preview, and only `source-install-apply` writes project files. `source-add`/`source-remove` change the local registry, while `source-sync` makes GitHub network requests. Arguments are escaped using `quote()` from just.
 
