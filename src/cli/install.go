@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/r14r/agentstrap/internal/catalog"
+	"github.com/r14r/agentstrap/src/catalog"
 )
 
 func installItem(item catalog.Item, opts options, out io.Writer) error {

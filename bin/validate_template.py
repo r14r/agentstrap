@@ -17,11 +17,15 @@ REQUIRED = (
     "CHANGELOG.md",
     "go.mod",
     "cmd/agentstrap/main.go",
-    "internal/cli/cli.go",
-    "internal/cli/cli_test.go",
+    "src/cli/cli.go",
+    "src/cli/cli_test.go",
+    "src/catalog/catalog.go",
+    "src/sources/registry.go",
+    "src/sources/defaults.json",
+    "bin/validate_template.py",
     "update-cli.yaml",
     "justfile",
-    "scripts/next.sh",
+    "bin/next.sh",
     "doc/ai/PROJECT.md",
     "doc/ai/CONTEXT.md",
     "doc/ai/ARCHITECTURE.md",
@@ -41,11 +45,17 @@ REQUIRED = (
 )
 ERRORS: list[str] = []
 
+# Enforce the canonical layout after the directory migration.
+FORBIDDEN_DIRECTORIES = ("internal", "scripts")
+
 
 def check(condition: bool, message: str) -> None:
     if not condition:
         ERRORS.append(message)
 
+
+for legacy in FORBIDDEN_DIRECTORIES:
+    check(not (ROOT / legacy).exists(), f"Legacy folder still present: {legacy}/")
 
 for name in REQUIRED:
     p = ROOT / name

@@ -1,13 +1,14 @@
 # Architektur
 
-## Ist-Zustand (v0.2.0)
+## Ist-Zustand (v0.4.2)
 
 Go-CLI mit minimalem, unabhängig testbarem Einstiegspunkt.
 
 | Komponente | Verantwortung | Pfad |
 | --- | --- | --- |
 | CLI-Binary | Argumente, Prozess-Exitcode, Build-Version | `cmd/agentstrap/main.go` |
-| CLI-Kern | Hilfe, Version, Eingabevalidierung | `internal/cli/` |
+| CLI-Kern | Befehle, Source-Registry, Installation und Projektinspektion | `src/cli/`, `src/catalog/`, `src/sources/` |
+| Skripte | Repository-Validierung, PR-Prüfungen | `bin/validate_template.py`, `bin/next.sh` |
 | Buildsystem | Format, Vet, Tests, Race-Tests, Build, Installation | `justfile` |
 | Update-Orchestrierung | Schema-v2-Workflows auf `just` | `update-cli.yaml` |
 | CI | Automatische Prüfungen und Binary-Smoke-Test | `.github/workflows/ci.yml` |

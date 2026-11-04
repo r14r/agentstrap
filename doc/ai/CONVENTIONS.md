@@ -3,7 +3,7 @@
 ## Go
 
 - Go 1.23+; Modul `github.com/r14r/agentstrap`.
-- Einstieg in `cmd/agentstrap`, Paketlogik und Tests in `internal/`.
+- Einstieg in `cmd/agentstrap`, Paketlogik und Tests in `src/`, Entwicklungshelfer in `bin/`.
 - `gofmt` ist verpflichtend, `go vet ./...` und `go test` sind Teil von CI.
 - Öffentliche CLI-Befehle brauchen Tests für Erfolg und Fehlerfälle.
 - Standardbibliothek bevorzugen; externe Abhängigkeiten begründen und fixieren.

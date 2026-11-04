@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/r14r/agentstrap/internal/cli"
+	"github.com/r14r/agentstrap/src/cli"
 )
 
 // version is populated from VERSION by the build command.

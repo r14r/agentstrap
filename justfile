@@ -27,11 +27,11 @@ setup: bootstrap
 
 # Format Go source files.
 fmt:
-    gofmt -w cmd internal
+    gofmt -w cmd src
 
 # Check formatting without modifying the working tree.
 fmt-check:
-    @files="$(gofmt -l cmd internal)"; if [[ -n "$files" ]]; then printf 'Unformatted Go files:\n%s\n' "$files" >&2; exit 1; fi
+    @files="$(gofmt -l cmd src)"; if [[ -n "$files" ]]; then printf 'Unformatted Go files:\n%s\n' "$files" >&2; exit 1; fi
 
 vet:
     go vet ./...
@@ -43,7 +43,7 @@ test:
 
 # Preserve validation of the inherited AI-project skills and examples.
 validate:
-    python3 scripts/validate_template.py
+    python3 bin/validate_template.py
 
 # Format check + static analysis + unit tests + project validation.
 precommit: bootstrap lint test validate
@@ -86,7 +86,7 @@ run *args:
 # Inspect branch/worktree, all open PRs, and suggested acceptance checks.
 # --run executes the checks, but never merges or deploys automatically.
 next *args:
-    bash scripts/next.sh {{args}}
+    bash bin/next.sh {{args}}
 
 
 # Source Registry commands. Use the current Go checkout without rerunning CI.

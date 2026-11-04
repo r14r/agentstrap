@@ -3,13 +3,14 @@
 **Stand:** 2026-11-04
 
 - **Repository:** `r14r/agentstrap`
-- **Entwicklungsbranch:** `feat/just-source-recipes-v0-4-1`
-- **Version:** `0.4.1` (`VERSION`)
+- **Entwicklungsbranch:** `refactor/rename-internal-scripts-to-src-bin-v0-4-2`
+- **Version:** `0.4.2` (`VERSION`)
 - **CI:** GitHub Actions und PR-Checks vor Merge überprüfen.
 
 ## Vorbereitet
 
 - Go-CLI-Grundstruktur mit Hilfe-/Versionsfunktion
+- Go-Quellcode und Tests in `src/`; Hilfsskripte in `bin/`
 - Go-Tests und CI-Workflow
 - Thematischer Katalog, Projektinstallation und Repository-Inspektion
 - Einheitliche `just`-Befehle `bootstrap`, `precommit`, `fmt`, `ci`, `build`, `install`, `next`

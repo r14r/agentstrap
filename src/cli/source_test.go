@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/r14r/agentstrap/internal/sources"
+	"github.com/r14r/agentstrap/src/sources"
 )
 
 func TestSourceLifecycle(t *testing.T) {
