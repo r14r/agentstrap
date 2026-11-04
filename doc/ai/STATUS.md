@@ -3,15 +3,16 @@
 **Stand:** 2026-11-04
 
 - **Repository:** `r14r/agentstrap`
-- **Entwicklungsbranch:** `feat/go-cli-bootstrap-v0.2.0`
-- **Version:** `0.2.0` (`VERSION`)
-- **CI:** GitHub Actions in diesem Branch zu prüfen; Status vor Merge erneut ermitteln.
+- **Entwicklungsbranch:** `fix/just-install-usr-local-bin-v0.2.1`
+- **Version:** `0.2.1` (`VERSION`)
+- **CI:** GitHub Actions und PR-Checks vor Merge überprüfen.
 
 ## Vorbereitet
 
 - Go-CLI-Grundstruktur mit Hilfe-/Versionsfunktion
 - Go-Tests und CI-Workflow
-- `justfile` inkl. `next` und `next --run`
+- Einheitliche `just`-Befehle `bootstrap`, `precommit`, `fmt`, `ci`, `build`, `install`, `next`
+- Systeminstallation: `/usr/local/bin/agentstrap` (falls nötig mit `sudo`)
 - `update-cli.yaml` mit Schema v2
 - Bestehende Agent-Skills/MCP-Beispiele beibehalten
 
@@ -23,7 +24,7 @@
 
 ## Nächste Schritte
 
-1. PR-Checks und lokalen `just build` prüfen.
+1. GitHub Actions nach dem Commit prüfen.
 2. Feature-PR reviewen und erst mit Freigabe mergen.
 3. Client-Erkennung und deklaratives Konfigurationsformat implementieren.
 
