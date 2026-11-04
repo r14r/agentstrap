@@ -35,6 +35,8 @@ func Run(args []string, stdout, stderr io.Writer, version string) int {
 		return 0
 	case "skill", "agent", "mcp":
 		err = resourceCommand(args[0], args[1:], stdout)
+	case "source":
+		err = sourceCommand(args[1:], stdout)
 	case "inspect":
 		err = inspectCommand(args[1:], stdout)
 	case "repo":
@@ -119,6 +121,9 @@ func resourceCommand(kind string, args []string, out io.Writer) error {
 		if len(positional) != 1 || opts.client == "" || opts.topic != "" {
 			return fmt.Errorf("usage: agentstrap %s install ID --client codex|claude|gemini [--path DIR] [--apply]", kind)
 		}
+		if strings.Contains(positional[0], ":") {
+			return installSourceItem(kind, positional[0], opts, out)
+		}
 		item, found := catalog.Find(kind, positional[0])
 		if !found {
 			return fmt.Errorf("unknown %s %q; use '%s list'", kind, positional[0], kind)
@@ -146,6 +151,7 @@ func printHelp(out io.Writer) {
 	fmt.Fprint(out, "  skill list|search|install   Find and install project skills\n")
 	fmt.Fprint(out, "  agent list|search|install   Find and install agents\n")
 	fmt.Fprint(out, "  mcp list|search|install     Find and configure MCP servers\n")
+	fmt.Fprint(out, "  source list|show|add|remove|sync|search|install   Manage external GitHub registries\n")
 	fmt.Fprint(out, "  inspect / repo inspect     Suggest project instruction and skill files\n")
 	fmt.Fprint(out, "  version                    Show version\n")
 	fmt.Fprint(out, "  help                       Display help\n\n")

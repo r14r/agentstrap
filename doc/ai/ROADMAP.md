@@ -29,6 +29,15 @@ Ein Roadmap-Punkt ist eine Planung, **keine implementierte Funktion**.
 - [ ] Adapter-Schnittstelle für plattformspezifische Client-Konfiguration
 - [ ] Testfixtures für macOS, Linux und Windows
 
+## v0.4.0 — Persistente externe Quellen
+
+- [x] Source Registry mit zwei GitHub-Repositories
+- [x] Quellen verwalten und synchronisieren
+- [x] Skills, Agents und MCP-Konfigurationen indexieren und suchen
+- [x] Skills und Agents aus gepinnten Git-Commits installieren
+- [x] Preview, Hashprüfung, Schutz vor Überschreiben
+- [ ] Selektiver, sicherer Import fremder MCP-Konfigurationen
+
 ## Weitere Meilensteine
 
 - [ ] Externe Skill-Registries, lokale Quellen, Quellenvalidierung, Updates und Remove

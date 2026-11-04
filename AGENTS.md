@@ -8,6 +8,8 @@
 - Geplante Befehle aus der Roadmap nicht als bereits implementiert bezeichnen.
 - v0.3.0 führt Katalogsuche, projektbezogene Installation und read-only Repository-Inspektion ein; die Inspektion schreibt keine Dateien.
 - Installationsbefehle sind standardmäßig Vorschauen; Schreibzugriff nur über `--apply`.
+- Externe Quellen nutzen SHA-Pinning, verifizierte Dateiinhalte und eine lokale Source Registry. Diese Sicherheitsmaßnahmen nicht umgehen.
+- Fremde MCP-Konfigurationsdateien niemals automatisch ausführen oder aktivieren.
 - Keine bestehenden Skill- oder Agentdateien überschreiben; bestehende MCP-Konfigurationen nur mit Backup ändern.
 
 ## Technische Regeln
