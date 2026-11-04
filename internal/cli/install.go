@@ -180,20 +180,34 @@ func readOptionalFile(path string) ([]byte, os.FileMode, error) {
 	return data, info.Mode().Perm(), err
 }
 
-// Existing configuration files are backed up once and replaced atomically.
+// Existing configuration files are backed up and replaced atomically.
 func replaceWithBackup(path string, old, next []byte, perm os.FileMode) error {
 	if _, err := os.Lstat(path); err == nil {
-		backup := path + ".agentstrap.bak"
-		f, err := os.OpenFile(backup, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0600)
-		if err != nil {
-			return fmt.Errorf("cannot create backup %s: %w", backup, err)
+		created := false
+		for i := 0; i < 100; i++ {
+			backup := path + ".agentstrap.bak"
+			if i > 0 {
+				backup = fmt.Sprintf("%s.agentstrap.bak.%d", path, i)
+			}
+			f, err := os.OpenFile(backup, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0600)
+			if errors.Is(err, os.ErrExist) {
+				continue
+			}
+			if err != nil {
+				return fmt.Errorf("cannot create backup %s: %w", backup, err)
+			}
+			if _, err = f.Write(old); err != nil {
+				f.Close()
+				return err
+			}
+			if err = f.Close(); err != nil {
+				return err
+			}
+			created = true
+			break
 		}
-		if _, err = f.Write(old); err != nil {
-			f.Close()
-			return err
-		}
-		if err = f.Close(); err != nil {
-			return err
+		if !created {
+			return fmt.Errorf("too many existing backups for %s", path)
 		}
 	} else if !errors.Is(err, os.ErrNotExist) {
 		return err
