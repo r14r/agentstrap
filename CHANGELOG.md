@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-11-04
+
+- Lokaler, themenbasierter Katalog: Skills, Agents, MCPs für Development, Video Editing und Animation.
+- Befehle `skill|agent|mcp list|search|install` inklusive Filtern.
+- Projektbezogene Installation für Codex, Claude Code und Gemini CLI mit Dry-Run als Standard.
+- Sicheres Hinzufügen ausgewählter MCP-Konfigurationen mit Backup bestehender Einstellungen.
+- `inspect` und `repo inspect` erkennen Projektmanifeste und schlagen passende Instruction-/Skill-Dateien vor.
+- Tests für Katalog, Preview, Schreibschutz, client-spezifische Konfiguration und Inspektion.
+
 ## 0.2.1 — 2026-11-04
 
 - `just install` installs the CLI to `/usr/local/bin` by default, escalating to `sudo` only when needed.

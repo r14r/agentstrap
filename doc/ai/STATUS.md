@@ -3,14 +3,15 @@
 **Stand:** 2026-11-04
 
 - **Repository:** `r14r/agentstrap`
-- **Entwicklungsbranch:** `fix/just-install-usr-local-bin-v0.2.1`
-- **Version:** `0.2.1` (`VERSION`)
+- **Entwicklungsbranch:** `feat/catalog-install-inspect-v0.3.0`
+- **Version:** `0.3.0` (`VERSION`)
 - **CI:** GitHub Actions und PR-Checks vor Merge überprüfen.
 
 ## Vorbereitet
 
 - Go-CLI-Grundstruktur mit Hilfe-/Versionsfunktion
 - Go-Tests und CI-Workflow
+- Thematischer Katalog, Projektinstallation und Repository-Inspektion
 - Einheitliche `just`-Befehle `bootstrap`, `precommit`, `fmt`, `ci`, `build`, `install`, `next`
 - Systeminstallation: `/usr/local/bin/agentstrap` (falls nötig mit `sudo`)
 - `update-cli.yaml` mit Schema v2
@@ -19,8 +20,8 @@
 ## Noch nicht implementiert
 
 - Installation oder Erkennung von AI-Clients
-- Skill-/Agent-/MCP-Management
-- Generierung von Agent-Konfigurationsdateien
+- Externe Kataloge, Remote-Installation und fortgeschrittenes Skill-/Agent-/MCP-Management
+- Automatische Generierung der durch die Inspektion vorgeschlagenen Dateien
 
 ## Nächste Schritte
 

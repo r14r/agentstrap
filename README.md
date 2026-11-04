@@ -4,7 +4,7 @@
 
 AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-**Stand v0.2.1:** Das Repository enthält eine lauffähige, getestete CLI-Basis mit `help` und `version`. Client-/Skill-/Agent-/MCP-Verwaltung und Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
+**Stand v0.3.0:** Das Repository enthält einen integrierten Katalog, lesende Repository-Analyse sowie projektbezogene Installationen für Skills, Agents und ausgewählte MCP-Konfigurationen. Client-Installer, externe Registry-Synchronisierung und automatische Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
 ## Voraussetzungen
 
@@ -88,10 +88,50 @@ doc/ai/                      Projektkontext, Architektur, Roadmap und Status
 examples/mcp/                MCP-Konfigurationsbeispiele
 ```
 
+## Katalog, Installation und Repository-Analyse
+
+AgentStrap v0.3.0 enthält einen **eingebauten Starterkatalog** mit Themen `development`, `video-editing` und `animation`. Die Suche ist offline und katalogbasiert; noch keine externe Skill-/MCP-Registry.
+
+```bash
+# Skills, Agents und MCPs nach Thema suchen
+agentstrap skill list --topic development
+agentstrap skill search "video" --topic "video editing"
+agentstrap agent list --topic animation
+agentstrap mcp search browser
+
+# Projektinstallation: zunächst immer nur Vorschau
+agentstrap skill install video-editing --client claude --path ./my-project
+agentstrap skill install go-development --client codex --path ./my-project
+agentstrap agent install animation-planner --client gemini --path ./my-project
+agentstrap mcp install filesystem --client claude --path ./my-project
+
+# Erst --apply schreibt Dateien
+agentstrap skill install video-editing --client claude --path ./my-project --apply
+
+# Repository/Ordner auf sinnvolle Konfigurationsdateien prüfen
+agentstrap inspect --path ./my-project
+agentstrap repo inspect --client codex --path ./my-project
+```
+
+**Installationsziele (Projektumfang):**
+
+| Typ | Codex | Claude Code | Gemini CLI |
+| --- | --- | --- | --- |
+| Skill | `.agents/skills/<id>/SKILL.md` | `.claude/skills/<id>/SKILL.md` | `.gemini/skills/<id>/SKILL.md` |
+| Agent | Nicht unterstützt; stattdessen Skill nutzen | `.claude/agents/<id>.md` | `.gemini/agents/<id>.md` |
+| MCP | `.codex/config.toml` | `.mcp.json` | `.gemini/settings.json` |
+| Projektanweisungen | `AGENTS.md` | `CLAUDE.md` | `GEMINI.md` |
+
+Der Inspektionsbefehl prüft bestehende Dateien und leitet Hinweise aus Manifestdateien und ersten Monorepo-Unterordnern ab. Er erstellt **keine** Dateien. Skills und Agents werden beim Installieren als lokale Startervorlagen erzeugt; es werden keine Drittquellen installiert. Bestehende Skill- und Agentdateien werden nicht überschrieben.
+
+Bei MCPs ergänzt `--apply` die Projektkonfiguration. Bereits vorhandene JSON-Felder bleiben erhalten. Vor einer Änderung bestehender Einstellungen werden versionierte `.agentstrap.bak`-Sicherheitskopien angelegt. MCP-Server werden **nicht während der Installation ausgeführt**, können aber beim späteren Laden durch den AI-Client starten. Prüfe daher Paketquelle und Berechtigungen. Der Filesystem-MCP erhält Zugriff auf den angegebenen Projektordner; Playwright startet potenziell Browserautomation. Die aktuelle Variante verwendet `npx`, weshalb eine Node-Installation nötig ist.
+
+**Nicht enthalten:** zentrale/verteilte Registry, Remote-Suche, Download beliebiger Skills, automatische Client-Installation, Dateigenerierung oder Codex-Subagent-Unterstützung.
+
 ## Geplante Funktionalität
 
 - Client-Erkennung und Setup für Codex, Claude Code und Antigravity
-- Installation und Synchronisierung von Skills und Agents
+- Erweiterbare Quellen, Updates und Synchronisierung von Skills und Agents
 - Sichere Registrierung und Verwaltung von MCP-Servern
 - Generierung und Synchronisierung von `AGENTS.md`, `CLAUDE.md`, `GEMINI.md` und `SKILL.md`
 - Deklarative Konfiguration (`agentstrap.yaml`), Dry-Run, Backups und Konflikterkennung
