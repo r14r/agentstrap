@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 — 2026-11-04
+
+- `just install` installs the CLI to `/usr/local/bin` by default, escalating to `sudo` only when needed.
+- Preserve an optional `INSTALL_DIR` override for CI and custom paths.
+- Align and document `bootstrap`, `fmt`, `precommit`, `ci`, `build`, `install`, and `next` workflows with other Go CLI projects.
+- Add `help`, `setup`, `lint`, and `version` convenience recipes.
+- CI validates the canonical `just install` dependency chain with a temporary destination.
+
 ## 0.2.0 — 2026-11-04
 
 - Go-Modul `github.com/r14r/agentstrap` und ausführbarer CLI-Einstiegspunkt.

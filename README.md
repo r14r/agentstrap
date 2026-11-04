@@ -4,7 +4,7 @@
 
 AgentStrap ist eine in Go geschriebene CLI zur zukünftigen einheitlichen Einrichtung von AI-Coding-Clients (Codex, Claude Code, Antigravity), Skills, Agents, MCP-Servern und projektspezifischen Agent-Konfigurationsdateien.
 
-**Stand v0.2.0:** Das Repository enthält eine lauffähige, getestete CLI-Basis mit `help` und `version`. Client-/Skill-/Agent-/MCP-Verwaltung und Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
+**Stand v0.2.1:** Das Repository enthält eine lauffähige, getestete CLI-Basis mit `help` und `version`. Client-/Skill-/Agent-/MCP-Verwaltung und Dateigenerierung sind **noch nicht implementiert**; siehe [Roadmap](doc/ai/ROADMAP.md).
 
 ## Voraussetzungen
 
@@ -25,40 +25,50 @@ just build
 ./dist/agentstrap version
 ```
 
-Für eine lokale Installation in `~/.local/bin`:
+### Systemweite Installation
 
 ```sh
 just install
-# Optional ein anderes Installationsverzeichnis:
-INSTALL_DIR=/some/bin just install
+/usr/local/bin/agentstrap version
+```
+
+`just install` baut das Binary, kopiert es nach **`/usr/local/bin/agentstrap`** und überprüft die installierte Versionsnummer. Nur wenn die erforderlichen Schreibrechte fehlen, wird `sudo` für die Installation verwendet.
+
+Für ein alternatives Verzeichnis (z. B. zur Installation ohne `sudo` oder für CI):
+
+```sh
+INSTALL_DIR="$HOME/.local/bin" just install
 ```
 
 ## Entwicklungsbefehle
 
 | Befehl | Wirkung |
 | --- | --- |
-| `just` | Alle verfügbaren Rezepte anzeigen |
+| `just` / `just help` | Alle verfügbaren Rezepte anzeigen |
 | `just bootstrap` | Go-Module vorbereiten |
 | `just fmt` | Go-Code formatieren |
 | `just fmt-check` | Formatierung ohne Änderungen prüfen |
+| `just lint` | Formatierung und `go vet` prüfen |
 | `just test` | Go-Unit-Tests |
 | `just validate` | Projektstruktur und Agent-Skills prüfen |
-| `just precommit` | Format, `go vet`, Tests und Projektvalidierung |
-| `just ci` | `precommit` plus Race-Tests |
-| `just build` | `ci`, Binary bauen, Version und Hilfe prüfen |
+| `just precommit` | Bootstrap, Lint, Tests und Projektvalidierung |
+| `just ci` | Precommit einschließlich Race-Tests |
+| `just build` | CI, Binary bauen, Version und Hilfe prüfen |
+| `just install` | Build + Installation nach `/usr/local/bin`, Versionsprüfung |
 | `just run --help` | CLI direkt über `go run` ausführen |
 | `just next` | Git-Stand, offene PRs und nächste Prüfschritte anzeigen |
-| `just next --run` | Zusätzlich `just build` und gegebenenfalls PR-Checks ausführen |
+| `just next --run` | Zusätzlich `just build` und ggf. PR-Checks ausführen |
 | `just update` | `git pull --ff-only`, danach `just build` |
+| `just version` | Aktuelle Version anzeigen |
 | `just clean` | `dist/` entfernen |
 
-`just build` führt `just ci` bereits aus; ein separates `just precommit` oder `just test` davor ist nicht erforderlich.
+**Prüfkette:** `just install` → `just build` → `just ci` → `just precommit`. Ein separates `just test` oder `just precommit` vor `just build` ist nicht nötig. `just fmt` formatiert bewusst nur auf ausdrücklichen Aufruf; CI prüft die Formatierung ohne Änderungen.
 
 ## Update CLI
 
-Die Datei [update-cli.yaml](update-cli.yaml) verwendet **schemaVersion 2**. Sie definiert die Workflows `bootstrap`, `setup`, `precommit`, `test`, `ci`, `build`, `install`, `run` und `clean`. Alle Workflows verweisen auf die kanonischen `just`-Rezepte; so laufen keine abweichenden Prüfketten.
+Die Datei [update-cli.yaml](update-cli.yaml) verwendet **schemaVersion 2**. Sie definiert die Workflows `bootstrap`, `setup`, `precommit`, `test`, `ci`, `build`, `install`, `run` und `clean`. Alle Workflows verweisen auf die kanonischen `just`-Rezepte.
 
-Die Konfiguration verweist auf das GitHub-Repository `r14r/agentstrap` auf `main`. Installation erfolgt ohne root-Rechte standardmäßig nach `~/.local/bin`.
+Die Konfiguration verweist auf das GitHub-Repository `r14r/agentstrap` auf `main`. Die Standardinstallation erfolgt nach `/usr/local/bin` (bei Bedarf über `sudo`).
 
 ## Struktur
 
@@ -69,7 +79,7 @@ go.mod                       Go-Modul
 VERSION                      SemVer-Version (Single Source of Truth)
 justfile                     Build-, Prüf-, Installations- und Update-Rezepte
 update-cli.yaml              Schema-v2-Workflows für Update CLI
-.github/workflows/ci.yml     Automatische Prüfungen und Build-Smoke-Test
+.github/workflows/ci.yml     Automatische Tests des just-Build- und Installationswegs
 scripts/next.sh              Lokale/PR-Prüfempfehlungen
 scripts/validate_template.py Validierung der übernommenen AI-Projektstruktur
 AGENTS.md                    Anweisungen für Coding-Agents

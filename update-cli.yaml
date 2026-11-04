@@ -56,25 +56,25 @@ tasks:
         shell: just bootstrap
 
   precommit:
-    description: Run pre-commit checks
+    description: Run format validation, vet, tests and project checks
     steps:
       - id: precommit
         shell: just precommit
 
   test:
-    description: Run Go tests
+    description: Run Go unit tests
     steps:
       - id: test
         shell: just test
 
   ci:
-    description: Format check, vet, tests, template verification and race tests
+    description: Run precommit and race tests
     steps:
       - id: ci
         shell: just ci
 
   build:
-    description: Build and verify AgentStrap (includes CI, once)
+    description: Build and verify AgentStrap (includes CI)
     steps:
       - id: build
         shell: just build
@@ -83,7 +83,7 @@ tasks:
           executable: dist/agentstrap
 
   install:
-    description: Install AgentStrap to INSTALL_DIR or ~/.local/bin
+    description: Install AgentStrap to /usr/local/bin (sudo if needed; INSTALL_DIR overrides)
     steps:
       - id: install
         shell: just install
